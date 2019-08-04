@@ -5,10 +5,10 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import pwImage from '../images/pw.jpg';
-import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Link } from 'react-router-dom';
-import useLocalStorage from '../hooks/useLocalStorage';
+import { useAppDispatch } from '../contexts/useAppDispatch';
+import { useAppState } from '../contexts/useAppState';
 
 const useStyles = makeStyles(theme => ({ ...theme.classes }));
 
@@ -20,23 +20,12 @@ const Signup = props => {
     confirmPassword: '',
     handle: ''
   });
-  const [errors, setErrors] = React.useState({});
-  const [loading, setLoading] = React.useState(false);
-  const [setToken] = useLocalStorage('social-token', '', true);
+  const { signup } = useAppDispatch();
+  const { ui } = useAppState();
 
-  const handleOnSubmit = async e => {
+  const handleOnSubmit = e => {
     e.preventDefault();
-    setLoading(true);
-    try {
-      const result = await axios.post('/signup', fields);
-      setToken(`Bearer ${result.data.token}`);
-      //TODO: do something with result.data (token)
-      setLoading(false);
-      props.history.push('/');
-    } catch (error) {
-      setLoading(false);
-      setErrors(error.response.data);
-    }
+    signup(fields, props.history);
   };
 
   const handleChange = e => {
@@ -59,8 +48,8 @@ const Signup = props => {
             type="email"
             label="Email"
             className={classes.textField}
-            helperText={errors.email}
-            error={errors.email ? true : false}
+            helperText={ui.errors.email}
+            error={ui.errors.email ? true : false}
             value={fields.email}
             onChange={handleChange}
           />
@@ -71,8 +60,8 @@ const Signup = props => {
             type="password"
             label="Password"
             className={classes.textField}
-            helperText={errors.password}
-            error={errors.password ? true : false}
+            helperText={ui.errors.password}
+            error={ui.errors.password ? true : false}
             value={fields.password}
             onChange={handleChange}
           />
@@ -83,8 +72,8 @@ const Signup = props => {
             type="text"
             label="Confirm password"
             className={classes.textField}
-            helperText={errors.confirmPassword}
-            error={errors.confirmPassword ? true : false}
+            helperText={ui.errors.confirmPassword}
+            error={ui.errors.confirmPassword ? true : false}
             value={fields.confirmPassword}
             onChange={handleChange}
           />
@@ -95,18 +84,18 @@ const Signup = props => {
             type="text"
             label="Username"
             className={classes.textField}
-            helperText={errors.handle}
-            error={errors.handle ? true : false}
+            helperText={ui.errors.handle}
+            error={ui.errors.handle ? true : false}
             value={fields.handle}
             onChange={handleChange}
           />
-          {errors.general && (
+          {ui.errors.general && (
             <Typography
               color="error"
               variant="body2"
               className={classes.pageTitle}
             >
-              {errors.general}
+              {ui.errors.general}
             </Typography>
           )}
           <Button
@@ -115,10 +104,10 @@ const Signup = props => {
             type="submit"
             className={classes.button}
             size="large"
-            disabled={loading}
+            disabled={ui.loading}
           >
             Signup
-            {loading && (
+            {ui.loading && (
               <CircularProgress size={24} className={classes.buttonProgress} />
             )}
           </Button>

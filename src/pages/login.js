@@ -5,33 +5,25 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import pwImage from '../images/pw.jpg';
-import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Link } from 'react-router-dom';
-import useLocalStorage from '../hooks/useLocalStorage';
+import { useAppDispatch } from '../contexts/useAppDispatch';
+import { useAppState } from '../contexts/useAppState';
 
 const useStyles = makeStyles(theme => ({ ...theme.classes }));
 
 const Login = props => {
   const classes = useStyles(props);
-  const [fields, setFields] = React.useState({ email: '', password: '' });
-  const [errors, setErrors] = React.useState({});
-  const [loading, setLoading] = React.useState(false);
-  const [setToken] = useLocalStorage('social-token', '', true);
+  const [fields, setFields] = React.useState({
+    email: 'user4@email.com',
+    password: '123456'
+  });
+  const { login } = useAppDispatch();
+  const { ui } = useAppState();
 
-  const handleOnSubmit = async e => {
+  const handleOnSubmit = e => {
     e.preventDefault();
-    setLoading(true);
-    try {
-      const result = await axios.post('/login', fields);
-      setToken(`Bearer ${result.data.token}`);
-      //TODO: do something with result.data (token)
-      setLoading(false);
-      props.history.push('/');
-    } catch (error) {
-      setLoading(false);
-      setErrors(error.response.data);
-    }
+    login(fields, props.history);
   };
 
   const handleChange = e => {
@@ -54,8 +46,8 @@ const Login = props => {
             type="email"
             label="Email"
             className={classes.textField}
-            helperText={errors.email}
-            error={errors.email ? true : false}
+            helperText={ui.errors.email}
+            error={ui.errors.email ? true : false}
             value={fields.email}
             onChange={handleChange}
           />
@@ -66,18 +58,18 @@ const Login = props => {
             type="password"
             label="Password"
             className={classes.textField}
-            helperText={errors.password}
-            error={errors.password ? true : false}
+            helperText={ui.errors.password}
+            error={ui.errors.password ? true : false}
             value={fields.password}
             onChange={handleChange}
           />
-          {errors.general && (
+          {ui.errors.general && (
             <Typography
               color="error"
               variant="body2"
               className={classes.pageTitle}
             >
-              {errors.general}
+              {ui.errors.general}
             </Typography>
           )}
           <Button
@@ -86,10 +78,10 @@ const Login = props => {
             type="submit"
             className={classes.button}
             size="large"
-            disabled={loading}
+            disabled={ui.loading}
           >
             Login
-            {loading && (
+            {ui.loading && (
               <CircularProgress size={24} className={classes.buttonProgress} />
             )}
           </Button>

@@ -4,7 +4,7 @@ import { reducer } from './appReducer';
 export const AppUpdaterContext = React.createContext();
 export const AppStateContext = React.createContext();
 
-const AppProvider = ({ children, initialValue }) => {
+const AppProvider = ({ children }) => {
   const [state, dispatch] = React.useReducer(reducer, initialValue);
 
   return (
@@ -16,12 +16,16 @@ const AppProvider = ({ children, initialValue }) => {
   );
 };
 
-AppProvider.defaultProps = {
-  initialValue: {
-    user: {},
-    data: { test: 'testdata' },
-    ui: {}
-  }
+export const initialValue = {
+  user: {
+    authenticated: false,
+    credentials: {},
+    likes: [],
+    notifications: [],
+    loading:false
+  },
+  data: {},
+  ui: { errors: {}, loading: false }
 };
 
 export default AppProvider;
