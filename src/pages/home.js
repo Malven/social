@@ -1,31 +1,19 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import axios from 'axios';
 import { Scream } from '../components/scream';
 import { Profile } from '../components/profile';
+import { useAppState } from '../contexts/useAppState';
+import { useAppDispatch } from '../contexts/useAppDispatch';
 
 export default () => {
-  const [screams, setScreams] = React.useState([]);
+  const {
+    data: { screams }
+  } = useAppState();
+  const { getScreams } = useAppDispatch();
 
   React.useEffect(() => {
-    let ignore = false;
-
-    const fetchScreams = async () => {
-      try {
-        const screams = await axios.get('/screams');
-
-        if (!ignore) {
-          setScreams(screams.data);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchScreams();
-
-    return () => (ignore = true);
-  }, []);
+    getScreams();
+  }, [getScreams]);
 
   return (
     <Grid container spacing={2}>

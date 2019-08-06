@@ -2,8 +2,6 @@ import React from 'react';
 import makeStyles from '@material-ui/styles/makeStyles';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
 import MuiLink from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import LocationOn from '@material-ui/icons/LocationOn';
@@ -14,7 +12,9 @@ import CalendarToday from '@material-ui/icons/CalendarToday';
 import { Link } from 'react-router-dom';
 import { useAppState } from '../contexts/useAppState';
 import { useAppDispatch } from '../contexts/useAppDispatch';
+import { EditDetails } from './editDetails';
 import dayjs from 'dayjs';
+import { TooltipButton } from '../utils/tooltipButton';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -74,7 +74,6 @@ export const Profile = props => {
 
   const onFileUpload = e => {
     const image = e.target.files[0];
-    // Send to server
     const formData = new FormData();
     formData.append('image', image, image.name);
     uploadImage(formData);
@@ -98,11 +97,13 @@ export const Profile = props => {
               id="imageInput"
               onChange={onFileUpload}
             />
-            <Tooltip title="Change profile picture">
-              <IconButton onClick={handleEditImage} className="button">
-                <EditIcon color="primary" />
-              </IconButton>
-            </Tooltip>
+            <TooltipButton
+              tip="Change profile picture"
+              onClick={handleEditImage}
+              iconButtonClass="button"
+            >
+              <EditIcon color="primary" />
+            </TooltipButton>
           </div>
           <hr />
           <div className="profile-details">
@@ -136,11 +137,10 @@ export const Profile = props => {
             <CalendarToday color="primary"> </CalendarToday>{' '}
             <span>Joined {dayjs(createdAt).format('MMM YYYY')}</span>
           </div>
-          <Tooltip title="Logout">
-            <IconButton onClick={logout}>
-              <KeyboardReturn color="primary" />
-            </IconButton>
-          </Tooltip>
+          <TooltipButton tip="Logout" onClick={logout}>
+            <KeyboardReturn color="primary" />
+          </TooltipButton>
+          <EditDetails />
         </div>
       </Paper>
     ) : (

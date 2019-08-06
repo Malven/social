@@ -22,9 +22,13 @@ export const initialValue = {
     credentials: {},
     likes: [],
     notifications: [],
-    loading:false
+    loading: false
   },
-  data: {},
+  data: {
+    screams: [],
+    scream: {},
+    loading: false
+  },
   ui: { errors: {}, loading: false }
 };
 
