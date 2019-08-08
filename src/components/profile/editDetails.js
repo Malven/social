@@ -7,9 +7,9 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { useAppState } from '../contexts/useAppState';
-import { useAppDispatch } from '../contexts/useAppDispatch';
-import { TooltipButton } from '../utils/tooltipButton';
+import { useAppState } from '../../contexts/useAppState';
+import { useAppDispatch } from '../../contexts/useAppDispatch';
+import { TooltipButton } from '../../utils/tooltipButton';
 
 const useStyles = makeStyles(theme => ({
   ...theme.classes,

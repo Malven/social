@@ -1,7 +1,7 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import { Scream } from '../components/scream';
-import { Profile } from '../components/profile';
+import { Scream } from '../components/scream/scream';
+import { Profile } from '../components/profile/profile';
 import { useAppState } from '../contexts/useAppState';
 import { useAppDispatch } from '../contexts/useAppDispatch';
 

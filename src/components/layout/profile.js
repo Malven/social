@@ -10,11 +10,11 @@ import KeyboardReturn from '@material-ui/icons/KeyboardReturn';
 import EditIcon from '@material-ui/icons/Edit';
 import CalendarToday from '@material-ui/icons/CalendarToday';
 import { Link } from 'react-router-dom';
-import { useAppState } from '../contexts/useAppState';
-import { useAppDispatch } from '../contexts/useAppDispatch';
-import { EditDetails } from './editDetails';
+import { useAppState } from '../../contexts/useAppState';
+import { useAppDispatch } from '../../contexts/useAppDispatch';
+import { EditDetails } from '../profile/editDetails';
 import dayjs from 'dayjs';
-import { TooltipButton } from '../utils/tooltipButton';
+import { TooltipButton } from '../../utils/tooltipButton';
 
 const useStyles = makeStyles(theme => ({
   paper: {

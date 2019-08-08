@@ -12,7 +12,8 @@ import {
   UNLIKE_SCREAM,
   SET_SCREAM,
   DELETE_SCREAM,
-  POST_SCREAM
+  POST_SCREAM,
+  POST_COMMENT
 } from './types';
 import { initialValue } from './appContext';
 
@@ -64,8 +65,24 @@ export const reducer = (state, action) => {
         data: { ...state.data, screams: action.payload, loading: false }
       };
     }
+    case SET_SCREAM: {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          scream: action.payload
+        },
+        ui: {
+          ...state.ui,
+          loading: false
+        }
+      };
+    }
     case LIKE_SCREAM: {
       updateLikes(state, action);
+      if (state.data.scream.screamId === action.payload.screamId) {
+        state.data.scream = action.payload;
+      }
       return {
         ...state,
         user: {
@@ -82,6 +99,9 @@ export const reducer = (state, action) => {
     }
     case UNLIKE_SCREAM: {
       updateLikes(state, action);
+      if (state.data.scream.screamId === action.payload.screamId) {
+        state.data.scream = action.payload;
+      }
       return {
         ...state,
         user: {
@@ -107,6 +127,18 @@ export const reducer = (state, action) => {
         data: {
           ...state.data,
           screams: [action.payload, ...state.data.screams]
+        }
+      };
+    }
+    case POST_COMMENT: {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          scream: {
+            ...state.data.scream,
+            comments: [action.payload, ...state.data.scream.comments]
+          }
         }
       };
     }

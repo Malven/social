@@ -7,10 +7,10 @@ import HomeIcon from '@material-ui/icons/Home';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 //Router
 import { Link } from 'react-router-dom';
-import { useAppState } from '../contexts/useAppState';
+import { useAppState } from '../../contexts/useAppState';
 
-import { TooltipButton } from '../utils/tooltipButton';
-import { PostScream } from './postScream';
+import { TooltipButton } from '../../utils/tooltipButton';
+import { PostScream } from '../scream/postScream';
 
 export const Navbar = () => {
   const { user } = useAppState();

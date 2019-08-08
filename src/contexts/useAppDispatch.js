@@ -13,7 +13,8 @@ import {
   SET_SCREAMS,
   SET_SCREAM,
   DELETE_SCREAM,
-  POST_SCREAM
+  POST_SCREAM,
+  POST_COMMENT
 } from './types';
 import axios from 'axios';
 
@@ -36,6 +37,19 @@ export const useAppDispatch = () => {
       dispatch({ type: SET_SCREAMS, payload: [] });
     }
   }, [dispatch]);
+
+  const getScream = React.useCallback(
+    async screamId => {
+      dispatch({ type: LOADING_UI });
+      try {
+        const result = await axios.get(`/scream/${screamId}`);
+        dispatch({ type: SET_SCREAM, payload: result.data });
+      } catch (error) {
+        dispatch({ type: SET_ERRORS, payload: error.response.data });
+      }
+    },
+    [dispatch]
+  );
 
   const setScream = React.useCallback(async () => {
     dispatch({ type: LOADING_DATA });
@@ -92,6 +106,20 @@ export const useAppDispatch = () => {
       try {
         const result = await axios.post('/scream', scream);
         dispatch({ type: POST_SCREAM, payload: result.data });
+        dispatch({ type: CLEAR_ERRORS });
+      } catch (error) {
+        dispatch({ type: SET_ERRORS, payload: error.response.data });
+      }
+    },
+    [dispatch]
+  );
+
+  const postComment = React.useCallback(
+    async (screamId, comment) => {
+      dispatch({ type: LOADING_DATA });
+      try {
+        const result = await axios.post(`/scream/${screamId}/comment`, comment);
+        dispatch({ type: POST_COMMENT, payload: result.data });
         dispatch({ type: CLEAR_ERRORS });
       } catch (error) {
         dispatch({ type: SET_ERRORS, payload: error.response.data });
@@ -193,11 +221,13 @@ export const useAppDispatch = () => {
     uploadImage,
     editUserDetails,
     getScreams,
+    getScream,
     likeScream,
     unlikeScream,
     setScream,
     deleteScream,
     postScream,
+    postComment,
     clearErrors
   };
 };
