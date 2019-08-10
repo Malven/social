@@ -18,6 +18,7 @@ import { Configuration } from './components/configuration';
 const Home = React.lazy(() => import('./pages/home'));
 const Login = React.lazy(() => import('./pages/login'));
 const Signup = React.lazy(() => import('./pages/signup'));
+const UserPage = React.lazy(() => import('./pages/user'));
 
 const theme = createMuiTheme(myTheme);
 
@@ -41,6 +42,12 @@ function App() {
                   <Route path="/" exact component={Home} />
                   <AuthRoute path="/login" component={Login} />
                   <AuthRoute path="/signup" component={Signup} />
+                  <Route exact path="/users/:handle" component={UserPage} />
+                  <Route
+                    exact
+                    path="/users/:handle/scream/:screamId"
+                    component={UserPage}
+                  />
                   <Redirect to="/" component={Home} />
                 </Switch>
               </Suspense>

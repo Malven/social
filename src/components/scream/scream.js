@@ -31,7 +31,7 @@ const useStyles = makeStyles({
   }
 });
 
-export const Scream = ({ scream }) => {
+export const Scream = ({ scream, openDialog }) => {
   const classes = useStyles();
   const {
     body,
@@ -77,7 +77,11 @@ export const Scream = ({ scream }) => {
           <ChatIcon color="primary" />
         </TooltipButton>
         <span>{commentCount} Comments</span>
-        <ScreamDialog screamId={screamId} userHandle={userHandle} />
+        <ScreamDialog
+          screamId={screamId}
+          userHandle={userHandle}
+          openDialog={openDialog}
+        />
       </CardContent>
     </Card>
   );

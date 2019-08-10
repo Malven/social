@@ -44,9 +44,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export const ScreamDialog = ({ screamId, userHandle }) => {
+export const ScreamDialog = ({ screamId, userHandle, openDialog }) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [paths, setPaths] = React.useState({
+    newPath: '',
+    oldPath: ''
+  });
 
   const { getScream, clearErrors } = useAppDispatch();
   const {
@@ -54,15 +58,31 @@ export const ScreamDialog = ({ screamId, userHandle }) => {
     ui: { loading }
   } = useAppState();
 
-  const handleOpen = () => {
+  const handleOpen = React.useCallback(() => {
+    let oldPath = window.location.pathname;
+    const newPath = `/users/${userHandle}/${screamId}`;
+    if (oldPath === newPath) {
+      oldPath = `/users/${userHandle}`;
+    }
+
+    window.history.pushState(null, null, newPath);
+    setPaths({ oldPath, newPath });
+
     setOpen(true);
     getScream(screamId);
-  };
+  }, [getScream, screamId, userHandle]);
 
   const handleClose = () => {
+    window.history.pushState(null, null, paths.oldPath);
     setOpen(false);
     clearErrors();
   };
+
+  React.useEffect(() => {
+    if (openDialog) {
+      handleOpen();
+    }
+  }, [handleOpen, openDialog]);
 
   const dialogMarkup = loading ? (
     <div className={classes.spinnerDiv}>

@@ -116,7 +116,7 @@ export const useAppDispatch = () => {
 
   const postComment = React.useCallback(
     async (screamId, comment) => {
-      dispatch({ type: LOADING_DATA });
+      dispatch({ type: LOADING_UI });
       try {
         const result = await axios.post(`/scream/${screamId}/comment`, comment);
         dispatch({ type: POST_COMMENT, payload: result.data });
@@ -133,19 +133,29 @@ export const useAppDispatch = () => {
   const getUser = React.useCallback(async () => {
     dispatch({ type: LOADING_USER });
     try {
-      dispatch({ type: LOADING_UI });
       const result = await axios.get('/user');
       dispatch({ type: SET_USER, payload: result.data });
-      dispatch({ type: CLEAR_ERRORS });
     } catch (error) {
       dispatch({ type: SET_ERRORS, payload: error.response.data });
     }
   }, [dispatch]);
 
+  const getUserData = React.useCallback(
+    async userHandle => {
+      dispatch({ type: LOADING_DATA });
+      try {
+        const result = await axios.get(`/user/${userHandle}`);
+        dispatch({ type: SET_SCREAMS, payload: result.data.screams });
+      } catch (error) {
+        dispatch({ type: SET_SCREAMS, payload: null });
+      }
+    },
+    [dispatch]
+  );
+
   const login = React.useCallback(
     async (userData, history) => {
       dispatch({ type: LOADING_UI });
-
       try {
         const result = await axios.post('/login', userData);
         setAuthorizationHeader(result.data.token);
@@ -168,7 +178,6 @@ export const useAppDispatch = () => {
   const signup = React.useCallback(
     async (newUserData, history) => {
       dispatch({ type: LOADING_UI });
-
       try {
         const result = await axios.post('/signup', newUserData);
         setAuthorizationHeader(result.data.token);
@@ -215,6 +224,7 @@ export const useAppDispatch = () => {
 
   return {
     getUser,
+    getUserData,
     login,
     signup,
     logout,
