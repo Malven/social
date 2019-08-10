@@ -4,6 +4,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import HomeIcon from '@material-ui/icons/Home';
+import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 //Router
 import { Link } from 'react-router-dom';
@@ -35,6 +36,11 @@ export const Navbar = () => {
             <Link to="/">
               <TooltipButton tip="Home">
                 <HomeIcon />
+              </TooltipButton>
+            </Link>
+            <Link to="/operations">
+              <TooltipButton tip="Operations">
+                <AccountBalanceIcon />
               </TooltipButton>
             </Link>
             <PostScream />

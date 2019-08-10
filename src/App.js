@@ -19,6 +19,7 @@ const Home = React.lazy(() => import('./pages/home'));
 const Login = React.lazy(() => import('./pages/login'));
 const Signup = React.lazy(() => import('./pages/signup'));
 const UserPage = React.lazy(() => import('./pages/user'));
+const Operations = React.lazy(() => import('./pages/operations'));
 
 const theme = createMuiTheme(myTheme);
 
@@ -48,6 +49,7 @@ function App() {
                     path="/users/:handle/scream/:screamId"
                     component={UserPage}
                   />
+                  <Route path="/operations" exact component={Operations} />
                   <Redirect to="/" component={Home} />
                 </Switch>
               </Suspense>
