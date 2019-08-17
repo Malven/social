@@ -14,7 +14,8 @@ import {
   SET_SCREAM,
   DELETE_SCREAM,
   POST_SCREAM,
-  POST_COMMENT
+  POST_COMMENT,
+  MARK_NOTIFICATIONS_READ
 } from './types';
 import axios from 'axios';
 
@@ -218,6 +219,19 @@ export const useAppDispatch = () => {
     [dispatch, getUser]
   );
 
+  const markNotificationsRead = React.useCallback(
+    async notificationsIds => {
+      dispatch({ type: LOADING_USER });
+      try {
+        await axios.post('/notifications', notificationsIds);
+        dispatch({ type: MARK_NOTIFICATIONS_READ });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    [dispatch]
+  );
+
   const clearErrors = React.useCallback(() => {
     dispatch({ type: CLEAR_ERRORS });
   }, [dispatch]);
@@ -230,6 +244,7 @@ export const useAppDispatch = () => {
     logout,
     uploadImage,
     editUserDetails,
+    markNotificationsRead,
     getScreams,
     getScream,
     likeScream,

@@ -13,7 +13,8 @@ import {
   SET_SCREAM,
   DELETE_SCREAM,
   POST_SCREAM,
-  POST_COMMENT
+  POST_COMMENT,
+  MARK_NOTIFICATIONS_READ
 } from './types';
 import { initialValue } from './appContext';
 
@@ -33,6 +34,12 @@ export const reducer = (state, action) => {
       };
     case LOADING_USER:
       return { ...state, user: { ...state.user, loading: true } };
+
+    case MARK_NOTIFICATIONS_READ: {
+      state.user.notifications.forEach(n => (n.read = true));
+
+      return { ...state };
+    }
 
     //UI ACTIONS
     case LOADING_UI: {

@@ -1,20 +1,13 @@
 import React from 'react';
 import makeStyles from '@material-ui/styles/makeStyles';
 import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
 import MuiLink from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import LocationOn from '@material-ui/icons/LocationOn';
 import LinkIcon from '@material-ui/icons/Link';
-import KeyboardReturn from '@material-ui/icons/KeyboardReturn';
-import EditIcon from '@material-ui/icons/Edit';
 import CalendarToday from '@material-ui/icons/CalendarToday';
 import { Link } from 'react-router-dom';
-import { useAppState } from '../../contexts/useAppState';
-import { useAppDispatch } from '../../contexts/useAppDispatch';
-import { EditDetails } from './editDetails';
 import dayjs from 'dayjs';
-import { TooltipButton } from '../../utils/tooltipButton';
 
 const useStyles = makeStyles(theme => ({
   paper: {
