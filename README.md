@@ -1,3 +1,5 @@
+A simple social app that runs on Firebase functions (not included in the repository).
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
